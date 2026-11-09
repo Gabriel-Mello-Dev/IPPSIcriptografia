@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criptografia | Segurança dos dados</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #f4f3ef;
+    --white: #ffffff;
+    --text: #252b29;
+    --muted: #737a75;
+    --green: #315b4d;
+    --green-light: #e5eee8;
+    --border: #deded7;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1050px;
+    width: 90%;
+    margin: auto;
+}
+
+/* NAVEGAÇÃO */
+
+header {
+    border-bottom: 1px solid var(--border);
+    background: var(--background);
+}
+
+nav {
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--green);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: var(--green);
+}
+
+/* INTRODUÇÃO */
+
+.hero {
+    padding: 75px 0 55px;
+}
+
+.tag {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: clamp(35px, 6vw, 55px);
+    line-height: 1.1;
+    margin: 15px 0;
+    max-width: 700px;
+}
+
+.hero p {
+    color: var(--muted);
+    max-width: 620px;
+    font-size: 17px;
+}
+
+/* CONTEÚDO */
+
+section {
+    margin-bottom: 55px;
+}
+
+.section-title {
+    font-size: 25px;
+    margin-bottom: 18px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.example {
+    background: var(--green-light);
+    padding: 14px;
+    margin-top: 15px;
+    border-radius: 7px;
+    color: var(--green);
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.explanation {
+    margin-top: 18px;
+    padding: 22px;
+    background: #e9e6dd;
+    border-radius: 10px;
+}
+
+.explanation p {
+    color: #555d58;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* DESAFIO */
+
+.challenge {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.challenge-description {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+.levels {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.level {
+    background: #eeede8;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.level.active {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+}
+
+.bank {
+    background: #263c34;
+    color: white;
+    border-radius: 9px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.bank small {
+    color: #c4d4cb;
+}
+
+.bank h2 {
+    font-size: 38px;
+    margin: 8px 0;
+    letter-spacing: 2px;
+}
+
+.bank p {
+    font-size: 13px;
+    color: #c4d4cb;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 13px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--green);
+}
+
+button {
+    font-family: inherit;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: var(--green);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #244638;
+}
+
+.btn-secondary {
+    background: #eeede8;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.feedback {
+    background: #f1f0eb;
+    color: var(--muted);
+    padding: 13px;
+    border-radius: 7px;
+    margin-top: 17px;
+    font-size: 14px;
+    min-height: 48px;
+}
+
+.feedback.success {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.feedback.error {
+    background: #f7e9e6;
+    color: #963e35;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.stat {
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px;
+}
+
+.stat small {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.stat strong {
+    font-size: 18px;
+}
+
+/* COMPUTADOR */
+
+.computer {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.computer h3 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.computer p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    background: #e9e8e2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--green);
+    transition: width .1s;
+}
+
+.computer-status {
+    font-family: monospace;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* RODAPÉ */
+
+.final-note {
+    padding: 22px;
+    background: var(--green-light);
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.final-note p {
+    color: #52645a;
+    font-size: 14px;
+}
+
+footer {
+    padding: 25px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+        padding: 15px 0;
+    }
+
+    nav ul {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 50px 0 35px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .challenge {
+        padding: 18px;
+    }
+
+    .inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .levels {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">Criptografia</div>
+
+            <ul>
+                <li><a href="#conceito">Conceito</a></li>
+                <li><a href="#primos">Números primos</a></li>
+                <li><a href="#desafio">Desafio</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- INTRODUÇÃO -->
+
+    <section class="hero">
+        <span class="tag">Segurança da informação</span>
+
+        <h1>Como os números primos protegem seus dados?</h1>
+
+        <p>
+            A criptografia utiliza conceitos matemáticos para proteger
+            informações. Um exemplo é o RSA, algoritmo que utiliza
+            números primos para ajudar a proteger comunicações e dados.
+        </p>
+    </section>
+
+    <!-- CONCEITO -->
+
+    <section id="conceito">
+        <h2 class="section-title">Entendendo a criptografia</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>O que é criptografia?</h3>
+                <p>
+                    É uma técnica que transforma informações em códigos
+                    para impedir que pessoas não autorizadas entendam
+                    seu conteúdo.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Chave pública</h3>
+                <p>
+                    É uma chave que pode ser compartilhada.
+                    No RSA, ela participa do processo de criptografar
+                    informações.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Chave privada</h3>
+                <p>
+                    É mantida em segredo e permite realizar operações
+                    que dependem da chave privada, como descriptografar
+                    mensagens.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NÚMEROS PRIMOS -->
+
+    <section id="primos">
+        <h2 class="section-title">Por que utilizar números primos?</h2>
+
+        <div class="card">
+            <p>
+                Números primos só podem ser divididos por 1 e por eles
+                mesmos. Quando dois primos são multiplicados, o resultado
+                é fácil de calcular, mas descobrir os fatores originais
+                pode ser muito difícil quando os números são enormes.
+            </p>
+
+            <div class="example">
+                11 × 13 = 143
+            </div>
+
+            <p style="margin-top: 15px;">
+                Se alguém conhece apenas o resultado 143, precisa
+                encontrar os números que foram multiplicados.
+                Com números pequenos é simples. Com primos gigantes,
+                a tarefa pode se tornar extremamente difícil.
+            </p>
+        </div>
+
+        <div class="explanation">
+            <h3>Como isso funciona no RSA?</h3>
+
+            <p>
+                1. São escolhidos dois números primos muito grandes.
+            </p>
+            <p>
+                2. Esses números são multiplicados para formar um número composto.
+            </p>
+            <p>
+                3. O resultado participa da criação da chave pública.
+            </p>
+            <p>
+                4. A matemática do RSA permite que a chave privada seja
+                construída a partir dos fatores secretos.
+            </p>
+            <p>
+                5. Sem esses fatores, descobrir a chave privada a partir
+                da chave pública é computacionalmente inviável quando
+                os parâmetros são adequados.
+            </p>
+        </div>
+    </section>
+
+    <!-- DESAFIO -->
+
+    <section id="desafio">
+        <span class="tag">Atividade prática</span>
+
+        <h2 class="section-title">Você consegue descobrir a senha?</h2>
+
+        <p class="challenge-description">
+            Um banco fictício protegeu uma informação utilizando dois
+            números primos. Você encontrou apenas o resultado da
+            multiplicação. Tente descobrir quais foram os números!
+        </p>
+
+        <div class="challenge">
+
+            <div class="levels">
+                <button class="level active" onclick="changeLevel(0)">
+                    Nível 1
+                </button>
+
+                <button class="level" onclick="changeLevel(1)">
+                    Nível 2
+                </button>
+
+                <button class="level" onclick="changeLevel(2)">
+                    Nível 3
+                </button>
+            </div>
+
+            <div class="bank">
+                <small>CHAVE NUMÉRICA ENCONTRADA</small>
+
+                <h2 id="target">143</h2>
+
+                <p>
+                    Descubra os dois números primos que foram multiplicados.
+                </p>
+            </div>
+
+            <div class="inputs">
+                <input
+                    type="number"
+                    id="guess1"
+                    placeholder="Primeiro número primo"
+                    min="2"
+                >
+
+                <input
+                    type="number"
+                    id="guess2"
+                    placeholder="Segundo número primo"
+                    min="2"
+                >
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="checkAnswer()">
+                    Verificar resposta
+                </button>
+
+                <button class="btn btn-secondary" onclick="computerSearch()">
+                    Pedir ao computador
+                </button>
+            </div>
+
+            <div id="feedback" class="feedback">
+                Digite dois números primos e tente descobrir a combinação.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <small>Suas tentativas</small>
+                    <strong id="attempts">0</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Tempo do computador</small>
+                    <strong id="time">0 ms</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Nível</small>
+                    <strong id="levelName">Fácil</strong>
+                </div>
+            </div>
+
+            <div class="computer">
+                <h3>Simulação do computador</h3>
+
+                <p>
+                    O computador vai testar possíveis divisores até
+                    encontrar os fatores do número.
+                </p>
+
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="computer-status" id="computerStatus">
+                    Aguardando início da busca...
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONCLUSÃO -->
+
+    <section class="final-note">
+        <h3>O que aprendemos?</h3>
+
+        <p>
+            Multiplicar números primos é simples, mas descobrir quais
+            números foram utilizados pode ser extremamente difícil
+            quando eles são gigantescos. Essa propriedade matemática
+            é uma das bases da segurança do algoritmo RSA.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        Atividade educativa sobre criptografia e segurança da informação.
+    </div>
+</footer>
+
+<script>
+
+// NÍVEIS DO DESAFIO
+
+const levels = [
+    {
+        p: 11,
+        q: 13,
+        n: 143,
+        name: "Fácil"
+    },
+    {
+        p: 101,
+        q: 103,
+        n: 10403,
+        name: "Médio"
+    },
+    {
+        p: 1000003,
+        q: 1000033,
+        n: 1000036000099,
+        name: "Difícil"
+    }
+];
+
+let currentLevel = 0;
+let attempts = 0;
+let searchRunning = false;
+let searchTimer = null;
+
+const $ = id => document.getElementById(id);
+
+// VERIFICAR SE UM NÚMERO É PRIMO
+
+function isPrime(number) {
+    if (!Number.isSafeInteger(number) || number < 2) return false;
+
+    if (number === 2) return true;
+    if (number % 2 === 0) return false;
+
+    for (let i = 3; i <= Math.sqrt(number); i += 2) {
+        if (number % i === 0) return false;
+    }
+
+    return true;
+}
+
+// TROCAR DE NÍVEL
+
+function changeLevel(level) {
+    stopSearch();
+
+    currentLevel = level;
+    attempts = 0;
+
+    const data = levels[level];
+
+    $("target").textContent = data.n;
+    $("levelName").textContent = data.name;
+    $("attempts").textContent = "0";
+    $("time").textContent = "0 ms";
+
+    $("guess1").value = "";
+    $("guess2").value = "";
+
+    $("feedback").className = "feedback";
+    $("feedback").textContent =
+        "Digite dois números primos e tente descobrir a combinação.";
+
+    $("progressBar").style.width = "0%";
+    $("computerStatus").textContent =
+        "Aguardando início da busca...";
+
+    document.querySelectorAll(".level").forEach((button, index) => {
+        button.classList.toggle("active", index === level);
+    });
+}
+
+// VERIFICAR RESPOSTA DO USUÁRIO
+
+function checkAnswer() {
+    if (searchRunning) {
+        $("feedback").textContent =
+            "Aguarde a simulação do computador terminar.";
+        return;
+    }
+
+    const a = Number($("guess1").value);
+    const b = Number($("guess2").value);
+
+    attempts++;
+    $("attempts").textContent = attempts;
+
+    if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b) || a < 2 || b < 2) {
+        showFeedback("Digite dois números inteiros válidos.", "error");
+        return;
+    }
+
+    if (!isPrime(a) || !isPrime(b)) {
+        showFeedback(
+            "Um dos números não é primo. Lembre-se: primos só são divisíveis por 1 e por eles mesmos.",
+            "error"
+        );
+        return;
+    }
+
+    const result = a * b;
+
+    if (result === levels[currentLevel].n) {
+        showFeedback(
+            "Parabéns! Você encontrou os dois números primos. A multiplicação está correta!",
+            "success"
+        );
+    } else {
+        showFeedback(
+            "Ainda não! Esses números são primos, mas a multiplicação não corresponde ao resultado do banco.",
+            "error"
+        );
+    }
+}
+
+function showFeedback(message, type) {
+    $("feedback").textContent = message;
+    $("feedback").className = "feedback " + type;
+}
+
+// PARAR SIMULAÇÃO
+
+function stopSearch() {
+    if (searchTimer) {
+        clearTimeout(searchTimer);
+        searchTimer = null;
+    }
+
+    searchRunning = false;
+}
+
+// COMPUTADOR TENTANDO ENCONTRAR OS FATORES
+
+function computerSearch() {
+    if (searchRunning) return;
+
+    stopSearch();
+
+    const n = levels[currentLevel].n;
+    let divisor = 2;
+    let checks = 0;
+
+    const start = performance.now();
+    const maximum = Math.floor(Math.sqrt(n));
+
+    searchRunning = true;
+
+    $("feedback").className = "feedback";
+    $("feedback").textContent =
+        "O computador está testando possíveis divisores...";
+
+    $("progressBar").style.width = "0%";
+    $("computerStatus").textContent =
+        "Iniciando busca...";
+
+    function processBatch() {
+        const batchSize = 5000;
+        let finished = false;
+
+        for (let i = 0; i < batchSize; i++) {
+            if (divisor > maximum) {
+                finished = true;
+                break;
+            }
+
+            if (n % divisor === 0) {
+                finished = true;
+                break;
+            }
+
+            divisor++;
+            checks++;
+        }
+
+        const percentage = Math.min(
+            100,
+            ((divisor - 2) / (maximum - 1)) * 100
+        );
+
+        $("progressBar").style.width = percentage + "%";
+
+        $("computerStatus").textContent =
+            "Testando divisor: " + divisor.toLocaleString("pt-BR") +
+            " | Verificações: " + checks.toLocaleString("pt-BR");
+
+        if (finished) {
+            const elapsed = performance.now() - start;
+
+            const p = divisor;
+            const q = n / p;
+
+            searchRunning = false;
+            searchTimer = null;
+
+            $("progressBar").style.width = "100%";
+            $("time").textContent =
+                elapsed < 1 ? "< 1 ms" : elapsed.toFixed(2) + " ms";
+
+            $("feedback").className = "feedback success";
+            $("feedback").textContent =
+                "O computador encontrou os fatores: " +
+                p.toLocaleString("pt-BR") + " e " +
+                q.toLocaleString("pt-BR") + ".";
+
+            $("computerStatus").textContent =
+                "Busca concluída. " +
+                checks.toLocaleString("pt-BR") +
+                " verificações realizadas.";
+
+            return;
+        }
+
+        searchTimer = setTimeout(processBatch, 0);
+    }
+
+    processBatch();
+}
+
+</script>
+
+</body>
+</html>
